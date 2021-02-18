@@ -4,17 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./index.js",
-    "migrate:model": "node ./actions/model-migration.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/index.js"
+  },
+  "bin": {
+    "cg-toolbox": "./bin/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.0",
     "contentful-management": "^7.8.0",
-    "linebyline": "^1.3.0",
-    "prompts": "^2.4.0",
-    "readline": "^1.3.0"
+    "contentful-migration": "^4.0.7",
+    "figlet": "^1.5.0",
+    "inquirer": "^7.3.3",
+    "lodash": "^4.17.20",
+    "tmp": "^0.2.1",
+    "yargs": "^16.2.0"
   }
 }
