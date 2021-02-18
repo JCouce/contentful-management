@@ -1,6 +1,7 @@
 # Changelog
 
-## [Unreleased] - 2021-2-16
+## [1.0.0] - 2021-02-16
 
 - Initial Commit
-- Refactor CLI: Contentful create/ update added.
+- Refactor CLI: Contentful create/update added.
+

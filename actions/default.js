@@ -1,6 +1,6 @@
 const utils = require('../utils');
 
-const { prompt, print, colors } = utils;
+const { prompt, error } = utils;
 
 const questions = {
   type: 'list',
@@ -16,7 +16,11 @@ const init = async () => {
   try {
     const response = await prompt(questions);
     return response.action;
-  } catch {}
+  } catch (e) {
+    error(e);
+  }
+  return null;
 };
 
 module.exports = init;
+

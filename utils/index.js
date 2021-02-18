@@ -24,14 +24,12 @@ const warning = (text) => {
   print(text, colors.warning);
 };
 
-const headline = (text, color) => {
-  return new Promise((res) => {
-    figlet(text, (_, result) => {
-      print(result, color);
-      res();
-    });
+const headline = (text, color) => new Promise((res) => {
+  figlet(text, (_, result) => {
+    print(result, color);
+    res();
   });
-};
+});
 
 const prompt = inquirer.createPromptModule();
 
@@ -45,3 +43,4 @@ module.exports = {
   temp,
   colors,
 };
+

@@ -1,11 +1,15 @@
 const { createClient } = require('contentful-management');
 const { runMigration } = require('contentful-migration');
+const createMigrationFile = require('../contentful/migration-file');
+const {
+  print,
+  prompt,
+  error,
+  warning,
+} = require('../utils');
 
 const ACCESS_TOKEN = 'GioDfLsEpQBdG8tlyFH_pCA5D6WhQS5wnWsOZp0UEXA';
 const SPACE_ID = 'pl4vntl1jtvy';
-
-const { print, prompt, error, warning } = require('../utils');
-const createMigrationFile = require('../contentful/migration-file');
 
 const initContext = async () => {
   const actions = {
@@ -67,9 +71,7 @@ const selectTargetEnvironment = async (environments) => {
     type: 'list',
     name: 'environment',
     message: 'Select the target environment:',
-    choices: mapToChoices(environments.items).filter(
-      (env) => env.title !== 'develop'
-    ),
+    choices: mapToChoices(environments.items).filter((env) => env.title !== 'develop'),
   };
 
   const { environment } = await prompt(envQuestion);
@@ -79,9 +81,9 @@ const selectTargetEnvironment = async (environments) => {
 
 const successMessage = (environment) => {
   warning(
-    `You can check the migration here: https://app.contentful.com/spaces/${SPACE_ID}/environments/${environment.name}/content_types`
+    `You can check the migration here: https://app.contentful.com/spaces/${SPACE_ID}/environments/${environment.name}/content_types`,
   );
-  print(`Thanks for using the Toolbox, see you next time!`);
+  print('Thanks for using the Toolbox, see you next time!');
 };
 
 const create = async () => {
@@ -96,9 +98,7 @@ const create = async () => {
     });
 
     if (migration) {
-      print(
-        `${model.name} has been migrated to ${environment.name} successfully`
-      );
+      print(`${model.name} has been migrated to ${environment.name} successfully`);
       warning('IMPORTANT!The model has been migrated as a DRAFT');
       successMessage(environment);
     }
@@ -110,7 +110,6 @@ const create = async () => {
 const update = async () => {
   try {
     const [environments, models] = await initContentful();
-
     const model = await selectTargetModel(models);
 
     const fieldsQuestion = {
@@ -120,6 +119,7 @@ const update = async () => {
       choices: mapToChoices(model.fields),
       validate: (val) => Array.isArray(val) && val.length > 0,
     };
+
     const { fields } = await prompt(fieldsQuestion);
     const environment = await selectTargetEnvironment(environments);
     const targetModel = await environment.getContentType(model.sys.id);
@@ -136,7 +136,7 @@ const update = async () => {
     const migration = await createMigrationFile(
       targetModel,
       fields,
-      migrationCallback
+      migrationCallback,
     );
 
     if (migration) {
@@ -159,8 +159,10 @@ const init = async () => {
       await update();
       break;
     case 'quit':
+      // eslint-disable-next-line no-useless-return
       return;
   }
 };
 
 module.exports = init;
+
